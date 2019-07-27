@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  react:
+    image: chattermill-image
+    environment:
+      - API_URL= https://chattermill-challenge.com/api/
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    command: ["tail", "-f", "/dev/null"]
+    ports:
+      - '3002:3000'
+      - '3003:3001'
+    volumes:
+        - .:/usr/src/app
+    container_name: chattermill-app

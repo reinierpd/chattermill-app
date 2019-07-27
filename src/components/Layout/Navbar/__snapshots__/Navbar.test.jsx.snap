@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navbar Component render layout 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c1 {
+  height: 2.5rem;
+}
+
+@media (min-width:768px) {
+  .c1 {
+    height: auto;
+  }
+}
+
+<nav
+  className="c0"
+>
+  <a
+    href="/"
+    onClick={[Function]}
+  >
+    <img
+      alt="Revolico logo"
+      className="c1"
+      src="undefined/static/images/home_logo.png"
+    />
+  </a>
+</nav>
+`;

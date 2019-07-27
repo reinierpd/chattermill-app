@@ -1,0 +1,14 @@
+!.eslintrc.js
+documentation/
+build/
+jest.setup.js
+jest.config.js
+
+src/.next/*
+
+node_modules/*
+public/*
+build/*
+coverage/*
+cypress/*
+src/static/sw.js
