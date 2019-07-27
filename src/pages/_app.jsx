@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from 'theme';
+import Navbar from 'components/Layout/Navbar';
 
 class MyApp extends App {
   componentDidMount() {
@@ -26,6 +27,7 @@ class MyApp extends App {
           {/* CssBaseline kickstart an elegant, consistent, and simple
            baseline to build upon. */}
           <CssBaseline />
+          <Navbar />
           <Component {...pageProps} />
         </ThemeProvider>
       </Container>

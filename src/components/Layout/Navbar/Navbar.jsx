@@ -1,8 +1,9 @@
 import React from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import { Link } from 'routes';
-// styles
-import { CenteredContent } from 'components/common/UI';
 
 const Logo = styled.img`
   height: 2.5rem;
@@ -10,6 +11,7 @@ const Logo = styled.img`
     height: auto;
   }
 `;
+
 /**
  * @description
  * React hook Navbar
@@ -17,16 +19,13 @@ const Logo = styled.img`
  * @returns {*} - Image as link.
  */
 const Navbar = () => (
-  <CenteredContent as="nav">
-    <Link route="home">
-      <a>
-        <Logo
-          src={`${process.env.STATIC_URL}/static/images/home_logo.png`}
-          alt="Revolico logo"
-        />
-      </a>
-    </Link>
-  </CenteredContent>
+  <AppBar position="static">
+    <Toolbar>
+      <Typography variant="h5" color="inherit">
+        Chattermill
+      </Typography>
+    </Toolbar>
+  </AppBar>
 );
 
 export default Navbar;
