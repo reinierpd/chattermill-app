@@ -59,12 +59,14 @@ class WithFilterData extends React.Component {
     const output = {};
     reviews.forEach(review =>
       review.properties.forEach(prop => {
-        if (Object.prototype.hasOwnProperty.call(output, prop.key)) {
-          if (output[prop.key].options.indexOf(prop.value) < 0) {
-            output[prop.key].options.push(prop.value);
+        if (prop.value) {
+          if (Object.prototype.hasOwnProperty.call(output, prop.key)) {
+            if (output[prop.key].options.indexOf(prop.value) < 0) {
+              output[prop.key].options.push(prop.value);
+            }
+          } else {
+            output[prop.key] = { options: [], name: prop.name };
           }
-        } else {
-          output[prop.key] = { options: [], name: prop.name };
         }
       }),
     );
