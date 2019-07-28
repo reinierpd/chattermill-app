@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 // jest
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import ReviewList from './ReviewList';
 
 describe('AdDetail component', () => {
