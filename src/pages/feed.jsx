@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Feed from 'components/Feed';
+import Container from '@material-ui/core/Container';
+import WithFilterData from 'components/common/WithFilterData';
+import ReviewList from 'components/ReviewList';
 
 class FeedPage extends React.Component {
   static async getInitialProps({ query }) {
@@ -11,10 +13,19 @@ class FeedPage extends React.Component {
 
   render() {
     const { query } = this.props;
-    return <Feed initialFilters={query} />;
+    return (
+      <Container maxWidth="xl">
+        <h2>Reviews</h2>
+        <WithFilterData initialFilters={query} route="feed">
+          {({ reviews, handleFetchMore }) => (
+            <ReviewList reviews={reviews} handleFetchMore={handleFetchMore} />
+          )}
+        </WithFilterData>
+      </Container>
+    );
   }
 }
 FeedPage.propTypes = {
-  query: PropTypes.instanceOf({}).isRequired,
+  query: PropTypes.instanceOf(Object).isRequired,
 };
 export default FeedPage;
