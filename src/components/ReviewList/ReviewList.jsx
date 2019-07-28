@@ -36,7 +36,7 @@ const ReviewList = ({ reviews, handleFetchMore }) => {
               <React.Fragment key={`${item.id}-${idx}`}>
                 <ListItem alignItems="flex-start">
                   <ListItemText
-                    primary={item.rate}
+                    primary={item.score}
                     secondary={
                       <React.Fragment>
                         <Typography

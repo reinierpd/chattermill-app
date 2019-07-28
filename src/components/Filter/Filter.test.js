@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 // jest
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import rendered from 'react-test-renderer';
 import 'jest-styled-components';
 import Filter from './Filter';
