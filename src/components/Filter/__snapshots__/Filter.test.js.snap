@@ -1,79 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AdDetail component validate correct mounting 1`] = `
-.c0 {
-  padding: 5px 0;
-  margin-bottom: 10px;
-}
-
-<div
-  className="c0"
->
-  <div
-    className="MuiFormControl-root"
-  >
-    <label
-      className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
-      data-shrink={false}
-      htmlFor="item-select"
-    >
-      Render item
-    </label>
-    <div
-      className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
-      onClick={[Function]}
-    >
-      <select
-        aria-invalid={false}
-        className="MuiSelect-root MuiSelect-select MuiInputBase-input MuiInput-input MuiInputBase-inputSelect"
-        disabled={false}
-        id="item-select"
-        multiple={false}
-        name="name"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onFocus={[Function]}
-        required={false}
-        value=""
-      >
-        <option
-          value=""
-        />
-        <option
-          value={1}
-        >
-          Item1
-        </option>
-        <option
-          value={2}
-        >
-          Item2
-        </option>
-      </select>
-      <svg
-        aria-hidden="true"
-        className="MuiSvgIcon-root MuiSelect-icon"
-        focusable="false"
-        role="presentation"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M7 10l5 5 5-5z"
-        />
-      </svg>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`AdDetail component validate correct mounting with data array of objects 1`] = `
-.c0 {
-  padding: 5px 0;
-  margin-bottom: 10px;
-}
-
 <div
-  className="c0"
+  className="makeStyles-root-1"
 >
   <div
     className="MuiFormControl-root"
@@ -133,13 +62,8 @@ exports[`AdDetail component validate correct mounting with data array of objects
 `;
 
 exports[`AdDetail component validate correct mounting with data array of values 1`] = `
-.c0 {
-  padding: 5px 0;
-  margin-bottom: 10px;
-}
-
 <div
-  className="c0"
+  className="makeStyles-root-1"
 >
   <div
     className="MuiFormControl-root"

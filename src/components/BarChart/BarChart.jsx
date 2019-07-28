@@ -33,8 +33,10 @@ const BarChart = ({ data, labelField, valueField, title }) => (
  * @param valueField - value for bars
  * */
 BarChart.propTypes = {
-  data: PropTypes.instanceOf([]).isRequired,
+  data: PropTypes.instanceOf(Array).isRequired,
   title: PropTypes.string.isRequired,
   labelField: PropTypes.string.isRequired,
   valueField: PropTypes.string.isRequired,
 };
+
+export default BarChart;

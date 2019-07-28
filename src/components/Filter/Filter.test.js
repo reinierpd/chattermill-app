@@ -4,7 +4,6 @@ import React from 'react';
 // jest
 import { mount } from 'enzyme';
 import rendered from 'react-test-renderer';
-import 'jest-styled-components';
 import Filter from './Filter';
 
 describe('AdDetail component', () => {

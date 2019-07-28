@@ -1,16 +1,18 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 import dynamic from 'next/dynamic';
-import PropTypes from 'prop-types';
+import { Router } from 'routes';
 import WithFilterData from 'components/common/WithFilterData';
 
 /**
  * @description
  * Lazy load the chart component for only be displayed in client side
  * */
-const DynamiChart = dynamic(() => import('components/Chart'), {
+const DynamiChart = dynamic(() => import('components/BarChart'), {
   ssr: false,
   loading: () => 'Loading chart....',
 });
@@ -68,19 +70,34 @@ class DashboardPage extends React.Component {
     }));
   };
 
+  /**
+   * @description
+   * Change view trigger.
+   * @param {Object} filters - Applied filters.
+   * */
+  handleShowReviews = filters => {
+    Router.pushRoute('feed', filters);
+  };
+
   render() {
     const { query } = this.props;
     return (
       <Container maxWidth="xl">
         <h2>Dashboard</h2>
         <WithFilterData initialFilters={query} route="dashboard">
-          {({ reviews, themes }) => (
+          {({ reviews, themes, appliedFilters }) => (
             <Paper>
+              <Button
+                color="primary"
+                onClick={() => this.handleShowReviews(appliedFilters)}
+              >
+                See reviews
+              </Button>
               <DynamiChart
                 data={this.generateAggregatedData(reviews, themes)}
                 labelField="theme"
                 valueField="sentiment"
-                title="Theme Sentiments"
+                title="Average sentiments by theme."
               />
             </Paper>
           )}

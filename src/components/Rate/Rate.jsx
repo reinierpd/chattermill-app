@@ -12,11 +12,7 @@ const Rate = ({ score }) => {
   return (
     <React.Fragment>
       {arr.map(item => (
-        <Star
-          color={item <= score ? 'action' : 'disabled'}
-          primary
-          key={item}
-        />
+        <Star htmlColor={item <= score ? 'gold' : 'gainsboro'} key={item} />
       ))}
     </React.Fragment>
   );

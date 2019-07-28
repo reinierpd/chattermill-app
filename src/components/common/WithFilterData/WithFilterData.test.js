@@ -212,9 +212,7 @@ describe('WithFilterData component', () => {
   it('validate correct mounting', async () => {
     const wrapper = mount(
       <WithFilterData initialFilters={{}} route="example">
-        {() => {
-          <h1>Testing</h1>;
-        }}
+        {() => <h1>Testing</h1>}
       </WithFilterData>,
     );
 

@@ -1,10 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import { Router } from 'routes';
 import Api from 'api';
 import Filter from 'components/Filter';
+
+const filterStyles = {
+  root: {
+    position: 'fixed',
+    right: '0',
+    padding: '10px 20px',
+  },
+};
 
 /**
  * @description
@@ -15,6 +25,7 @@ import Filter from 'components/Filter';
  * categories {Array}: List of categories
  * themes {Array}: List of themes
  * handleFetchMore {Function}: Fetch more trigger
+ * appliedFilters {Object}: Applied filters.
  * */
 class WithFilterData extends React.Component {
   constructor(props) {
@@ -104,7 +115,7 @@ class WithFilterData extends React.Component {
 
   /**
    * @description
-   * Trigger function for fetch more reviews and update the state data
+   * Trigger function for fetch more reviews and update the state data.
    * */
   handleFetchMore = async () => {
     const { offset, reviews } = this.state;
@@ -116,8 +127,19 @@ class WithFilterData extends React.Component {
     });
   };
 
+  /**
+   * @description
+   * Callback function for reset filters.
+   * * */
+  resetFilters = () => {
+    const { route } = this.props;
+    this.setState({ appliedFilters: {} }, () => {
+      Router.pushRoute(route, {});
+    });
+  };
+
   render() {
-    const { children } = this.props;
+    const { classes, children } = this.props;
     const {
       reviews,
       categories,
@@ -133,36 +155,43 @@ class WithFilterData extends React.Component {
             categories,
             themes,
             handleFetchMore: this.handleFetchMore,
+            appliedFilters,
           })}
         </Grid>
-        <Grid item sm={4}>
-          <Paper>
-            <Filter
-              key="category"
-              name="category_id"
-              data={categories}
-              label="Category"
-              value={appliedFilters.category_id}
-              handleChange={this.handleFilter}
-            />
-            <Filter
-              key="theme"
-              name="theme_id"
-              data={themes}
-              label="Theme"
-              value={appliedFilters.theme_id}
-              handleChange={this.handleFilter}
-            />
-            {Object.keys(properties).map(key => (
+        <Grid>
+          <Paper className={classes.root}>
+            <h2>Filter by:</h2>
+            <div>
               <Filter
-                key={key}
-                name={key}
-                data={properties[key].options}
-                label={properties[key].name}
-                value={appliedFilters[key] || ''}
+                key="category"
+                name="category_id"
+                data={categories}
+                label="Category"
+                value={appliedFilters.category_id || ''}
                 handleChange={this.handleFilter}
               />
-            ))}
+              <Filter
+                key="theme"
+                name="theme_id"
+                data={themes}
+                label="Theme"
+                value={appliedFilters.theme_id || ''}
+                handleChange={this.handleFilter}
+              />
+              {Object.keys(properties).map(key => (
+                <Filter
+                  key={key}
+                  name={key}
+                  data={properties[key].options}
+                  label={properties[key].name}
+                  value={appliedFilters[key] || ''}
+                  handleChange={this.handleFilter}
+                />
+              ))}
+            </div>
+            <Button onClick={this.resetFilters} color="primary">
+              Reset Filters
+            </Button>
           </Paper>
         </Grid>
       </Grid>
@@ -173,12 +202,13 @@ class WithFilterData extends React.Component {
 /**
  * WithFilterData PropTypes
  * @param initialFilters - Initial filters data
- * @param route - Route to push filters
  * @param children- React children prop
+ * @param handleFiltersUpdated - callback function.
  */
 WithFilterData.propTypes = {
   initialFilters: PropTypes.shape({}).isRequired,
   route: PropTypes.string.isRequired,
   children: PropTypes.func.isRequired,
+  classes: PropTypes.instanceOf(Object).isRequired,
 };
-export default WithFilterData;
+export default withStyles(filterStyles)(WithFilterData);

@@ -23,7 +23,6 @@
     "react-infinite-scroll-component": "^4.5.2",
     "react-jss": "^8.6.1",
     "react-moment": "^0.8.4",
-    "styled-components": "^4.3.2",
     "styled-jsx": "^3.2.1"
   },
   "scripts": {

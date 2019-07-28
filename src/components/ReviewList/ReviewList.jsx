@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
+import Moment from 'react-moment';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -13,11 +14,18 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
-    height: '500px',
+    height: '100%',
     overflowY: 'auto',
   },
   inline: {
     display: 'inline',
+  },
+  date: {
+    color: 'gray',
+    fontSize: '12px',
+  },
+  list: {
+    listStyle: 'none',
   },
 }));
 
@@ -29,40 +37,47 @@ const useStyles = makeStyles(theme => ({
 const ReviewList = ({ reviews, handleFetchMore }) => {
   const classes = useStyles();
   return (
-    <div id="reviews" className={classes.root}>
-      <InfiniteScroll
-        dataLength={reviews.length}
-        next={handleFetchMore}
-        hasMore
-        loader={<h4>Loading...</h4>}
-        scrollableTarget="reviews"
-      >
-        {reviews.length > 0
-          ? reviews.map((item, idx) => (
-              <React.Fragment key={`${item.id}-${idx}`}>
-                <ListItem alignItems="flex-start">
-                  <ListItemText
-                    primary={<Rate score={item.score} />}
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        >
-                          {item.comment}
-                        </Typography>
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </React.Fragment>
-            ))
-          : 'Nothing to show...'}
-      </InfiniteScroll>
-    </div>
+    <InfiniteScroll
+      className={classes.list}
+      dataLength={reviews.length}
+      next={handleFetchMore}
+      hasMore
+      loader={<h4>Loading...</h4>}
+    >
+      {reviews.length > 0
+        ? reviews.map((item, idx) => (
+            <React.Fragment key={`${item.id}-${idx}`}>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  primary={
+                    <React.Fragment>
+                      <Rate score={item.score} />
+                      <Moment
+                        className={classes.date}
+                        date={item.created_at}
+                        format="dddd, MMMM D, YYYY"
+                      />
+                    </React.Fragment>
+                  }
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        className={classes.inline}
+                        color="textPrimary"
+                      >
+                        {item.comment}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+              <Divider variant="middle" component="li" />
+            </React.Fragment>
+          ))
+        : 'Nothing to show...'}
+    </InfiniteScroll>
   );
 };
 
