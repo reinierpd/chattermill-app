@@ -34,7 +34,6 @@ const categories = {
     },
   ],
 };
-
 const themes = {
   data: [
     {

@@ -10,6 +10,12 @@ const SelectContainer = styled.div`
   margin-bottom: 10px;
 `;
 
+/**
+ * @description
+ * Component for create a select input filter.
+ * @param {Object} - - Passed Props.
+ * @returns {*} - React component.
+ * */
 const Filter = ({ data, name, label, value, handleChange }) => (
   <SelectContainer>
     <FormControl>
@@ -40,6 +46,16 @@ const Filter = ({ data, name, label, value, handleChange }) => (
   </SelectContainer>
 );
 
+/**
+ * @description
+ * Filter component propTypes.
+ * @param data - select options data. This can be an array of object or an
+ * array of values.
+ * @param name - input name.
+ * @param value - input value
+ * @param label - input label
+ * @param handleChange - callback Function
+ * */
 Filter.propTypes = {
   data: PropTypes.instanceOf(Array).isRequired,
   name: PropTypes.string.isRequired,

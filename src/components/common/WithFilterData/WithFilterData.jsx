@@ -6,6 +6,16 @@ import Paper from '@material-ui/core/Paper';
 import Api from 'api';
 import Filter from 'components/Filter';
 
+/**
+ * @description
+ * Component for handle filters. This component encapsulates all filtering and
+ * api call logic exposing the updated data through the render prop pattern.
+ * The exposed data is an object with the following fields:
+ * reviews {Array}: List of reviews.
+ * categories {Array}: List of categories
+ * themes {Array}: List of themes
+ * handleFetchMore {Function}: Fetch more trigger
+ * */
 class WithFilterData extends React.Component {
   constructor(props) {
     super(props);
@@ -38,6 +48,13 @@ class WithFilterData extends React.Component {
     });
   }
 
+  /**
+   * @description
+   * This method extract the properties from reviews return an object with all
+   * values available for each property.
+   * @param {Array} reviews  - Array of reviews.
+   * @returns {Object} Object with values by property.
+   * */
   processProperties = reviews => {
     const output = {};
     reviews.forEach(review =>
@@ -54,10 +71,16 @@ class WithFilterData extends React.Component {
     return output;
   };
 
+  /**
+   * @description
+   * Callback function called when a filter is added. It perform the api calls
+   * and updates the state with the new data. After the state is updated the
+   * new filters are pushed in the route.
+   * @param {Object} data - Filter changed.
+   * */
   handleFilter = async data => {
     const { appliedFilters } = this.state;
     const { route } = this.props;
-    console.log('Filtering:', data);
     const filter = {};
     filter[data.name] = data.value ? data.value : null;
     const newState = {
@@ -77,6 +100,10 @@ class WithFilterData extends React.Component {
     });
   };
 
+  /**
+   * @description
+   * Trigger function for fetch more reviews and update the state data
+   * */
   handleFetchMore = async () => {
     const { offset, reviews } = this.state;
     const newOffset = offset + 1;
@@ -141,6 +168,12 @@ class WithFilterData extends React.Component {
   }
 }
 
+/**
+ * WithFilterData PropTypes
+ * @param initialFilters - Initial filters data
+ * @param route - Route to push filters
+ * @param children- React children prop
+ */
 WithFilterData.propTypes = {
   initialFilters: PropTypes.shape({}).isRequired,
   route: PropTypes.string.isRequired,

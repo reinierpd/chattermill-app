@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Rate from 'components/Rate';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,6 +21,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+/**
+ * @description
+ * Component for create the reviews list
+ * @param {Object} - - React props.
+ * */
 const ReviewList = ({ reviews, handleFetchMore }) => {
   const classes = useStyles();
   return (
@@ -36,7 +42,7 @@ const ReviewList = ({ reviews, handleFetchMore }) => {
               <React.Fragment key={`${item.id}-${idx}`}>
                 <ListItem alignItems="flex-start">
                   <ListItemText
-                    primary={item.score}
+                    primary={<Rate score={item.score} />}
                     secondary={
                       <React.Fragment>
                         <Typography
@@ -60,6 +66,12 @@ const ReviewList = ({ reviews, handleFetchMore }) => {
   );
 };
 
+/**
+ * @description
+ * ReviewList propTypes.
+ * @param reviews - Array of reviews.
+ * @param handleFetchMore - callback function for fetch more elements.
+ * */
 ReviewList.propTypes = {
   reviews: PropTypes.instanceOf(Array).isRequired,
   handleFetchMore: PropTypes.func.isRequired,
