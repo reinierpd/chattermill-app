@@ -2,7 +2,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import renderer from 'react-test-renderer';
-import 'jest-styled-components';
 import Navbar from './Navbar';
 
 describe('Navbar Component', () => {

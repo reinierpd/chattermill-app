@@ -16,7 +16,7 @@ exports[`Navbar Component render layout 1`] = `
         style={
           Object {
             "color": "inherit",
-            "text-decoration": "none",
+            "textDecoration": "none",
           }
         }
       >
