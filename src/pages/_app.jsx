@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from 'theme';
 import Navbar from 'components/Layout/Navbar';
+import ErrorBoundary from 'components/common/ErrorBoundary';
 
 class MyApp extends App {
   componentDidMount() {
@@ -28,7 +29,9 @@ class MyApp extends App {
            baseline to build upon. */}
           <CssBaseline />
           <Navbar />
-          <Component {...pageProps} />
+          <ErrorBoundary>
+            <Component {...pageProps} />
+          </ErrorBoundary>
         </ThemeProvider>
       </Container>
     );

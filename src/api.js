@@ -1,7 +1,7 @@
 /* eslint-disable max-len,no-unused-vars */
 import fetch from 'isomorphic-unfetch';
 
-const API_URL = 'https://chattermill-challenge.com/api';
+const API_URL = 'https://chattermill-challenge.com/api/res';
 const categories = {
   data: [
     {
@@ -313,6 +313,7 @@ const reviews = {
     },
   ],
 };
+
 function getQueryString(params) {
   const esc = encodeURIComponent;
   return Object.keys(params)
@@ -322,7 +323,12 @@ function getQueryString(params) {
 }
 async function fetchData(entity, params) {
   const parsedParams = getQueryString(params);
-  const res = await fetch(`${API_URL}/${entity}?${parsedParams}`);
+  let res;
+  try {
+    res = await fetch(`${API_URL}/${entity}?${parsedParams}`);
+  } catch (e) {
+    console.log(e);
+  }
   const data = await res.json();
   return data.data;
 }
