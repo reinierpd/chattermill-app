@@ -24,7 +24,7 @@ exports[`AdDetail component validate correct mounting with data array of objects
         disabled={false}
         id="item-select"
         multiple={false}
-        name="name"
+        name="item"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -85,7 +85,7 @@ exports[`AdDetail component validate correct mounting with data array of values 
         disabled={false}
         id="item-select"
         multiple={false}
-        name="name"
+        name="item"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}

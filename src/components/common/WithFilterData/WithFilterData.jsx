@@ -103,9 +103,10 @@ class WithFilterData extends React.Component {
         offset: 0,
       },
     };
-    if (Object.prototype.hasOwnProperty.call(data, 'category_id')) {
+
+    if (data.name === 'category_id') {
       newState.appliedFilters.theme_id = null;
-      newState.themes = await Api.getThemes(data);
+      newState.themes = await Api.getThemes({ category_id: data.value });
     }
     newState.reviews = await Api.getReviews(newState.appliedFilters);
     this.setState(newState, () => {

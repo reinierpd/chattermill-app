@@ -329,17 +329,17 @@ async function fetchData(entity, params) {
 
 export default class Api {
   static async getReviews(params = {}) {
-    // return fetchData('reviews', params);
-    return Promise.resolve(reviews.data);
+    return fetchData('reviews', params);
+    // return Promise.resolve(reviews.data);
   }
 
   static async getCategories(params = {}) {
-    // return fetchData('categories', params);
-    return Promise.resolve(categories.data);
+    return fetchData('categories', params);
+    // return Promise.resolve(categories.data);
   }
 
   static async getThemes(params = {}) {
-    // return fetchData('themes', params);
-    return Promise.resolve(themes.data);
+    return fetchData('themes', params);
+    // return Promise.resolve(themes.data);
   }
 }

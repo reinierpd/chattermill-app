@@ -29,7 +29,7 @@ const Filter = ({ data, name, label, value, handleChange }) => {
           value={value}
           onChange={ev => handleChange({ name, value: ev.target.value })}
           inputProps={{
-            name: 'name',
+            name,
             id: `${name}-select`,
           }}
         >

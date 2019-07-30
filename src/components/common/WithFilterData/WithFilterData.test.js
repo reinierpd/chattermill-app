@@ -4,9 +4,11 @@ import React from 'react';
 // jest
 import { mount } from 'enzyme';
 import wait from 'waait';
+import Api from 'api';
+import { Router } from 'routes';
 import WithFilterData from './WithFilterData';
 
-jest.mock('api', () => {
+describe('WithFilterData component', () => {
   const categories = {
     data: [
       {
@@ -201,14 +203,20 @@ jest.mock('api', () => {
     ],
   };
 
-  return {
-    getReviews: () => Promise.resolve(reviews.data),
-    getCategories: () => Promise.resolve(categories.data),
-    getThemes: () => Promise.resolve(themes.data),
-  };
-});
+  const mockCategoriesCall = jest
+    .spyOn(Api, 'getCategories')
+    .mockImplementation(() => Promise.resolve(categories.data));
+  const mockThemesCall = jest
+    .spyOn(Api, 'getThemes')
+    .mockImplementation(() => Promise.resolve(themes.data));
+  const mockReviewsCall = jest
+    .spyOn(Api, 'getReviews')
+    .mockImplementation(() => Promise.resolve(reviews.data));
 
-describe('WithFilterData component', () => {
+  const routerMock = jest
+    .spyOn(Router, 'pushRoute')
+    .mockImplementation(() => {});
+
   it('validate correct mounting', async () => {
     const wrapper = mount(
       <WithFilterData initialFilters={{}} route="example">
@@ -230,5 +238,42 @@ describe('WithFilterData component', () => {
     expect(wrapper.find('#company-select').exists()).toBe(true);
     expect(wrapper.find('#app_version-select').exists()).toBe(true);
     expect(wrapper.find('#product_name-select').exists()).toBe(true);
+  });
+
+  it('validate change category select trigger a themes Api call', async () => {
+    const wrapper = mount(
+      <WithFilterData initialFilters={{}} route="example">
+        {() => <h1>Testing</h1>}
+      </WithFilterData>,
+    );
+
+    await wait();
+    wrapper.update();
+    wrapper
+      .find('#category_id-select')
+      .get(0)
+      .props.onChange({ target: { name: 'category_id', value: '1218' } });
+
+    await wait();
+    wrapper.update();
+
+    // check themes call with category filter
+    expect(mockThemesCall).lastCalledWith(
+      expect.objectContaining({ category_id: '1218' }),
+    );
+
+    // check reviews call with category filter
+    expect(mockReviewsCall).lastCalledWith(
+      expect.objectContaining({ category_id: '1218' }),
+    );
+
+    expect(routerMock).toBeCalledWith(
+      'example',
+      expect.objectContaining({
+        category_id: '1218',
+        offset: 0,
+        theme_id: null,
+      }),
+    );
   });
 });
