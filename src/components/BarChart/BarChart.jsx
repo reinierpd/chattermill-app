@@ -1,27 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Chart,
-  BarSeries,
-  Title,
-  ArgumentAxis,
-  ValueAxis,
-} from '@devexpress/dx-react-chart-material-ui';
-import { Animation } from '@devexpress/dx-react-chart';
+import Chart from 'react-google-charts';
 
 /**
  * @description
  * Component for create a bar chart.
  * @param {Object} - - React props.
  * */
-const BarChart = ({ data, labelField, valueField, title }) => (
-  <Chart data={data}>
-    <ArgumentAxis />
-    <ValueAxis max={7} />
-    <BarSeries valueField={valueField} argumentField={labelField} />
-    <Title text={title} />
-    <Animation />
-  </Chart>
+const BarChart = ({ data, title }) => (
+  <Chart
+    chartType="ColumnChart"
+    data={data}
+    options={{
+      // Material design options
+      chart: {
+        title: { title },
+        bars: 'vertical',
+      },
+    }}
+  />
 );
 
 /**
@@ -35,8 +32,6 @@ const BarChart = ({ data, labelField, valueField, title }) => (
 BarChart.propTypes = {
   data: PropTypes.instanceOf(Array).isRequired,
   title: PropTypes.string.isRequired,
-  labelField: PropTypes.string.isRequired,
-  valueField: PropTypes.string.isRequired,
 };
 
 export default BarChart;

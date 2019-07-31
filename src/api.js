@@ -1,7 +1,7 @@
 /* eslint-disable max-len,no-unused-vars */
 import fetch from 'isomorphic-unfetch';
 
-const API_URL = 'https://chattermill-challenge.com/api/res';
+const API_URL = 'https://chattermill-challenge.com/api';
 const categories = {
   data: [
     {

@@ -17,7 +17,7 @@ const DynamiChart = dynamic(() => import('components/BarChart'), {
   loading: () => 'Loading chart....',
 });
 
-class DashboardPage extends React.Component {
+class DashboardPage extends React.PureComponent {
   static async getInitialProps({ query }) {
     return {
       query,
@@ -27,47 +27,85 @@ class DashboardPage extends React.Component {
   /**
    * @description
    * Generate the average sentiments for each theme.
-   * @param {Array} reviews - Array of reviews.
+   * @param {Array} categories - Array of reviews.
    * @param {Array} themes - Array of themes.
-   * @returns {Array} Array of themes with average of sentiments.
+   * @param {Array} reviews - Array of reviews.
+   * @param {boolean} breakByThemes - Boolean for break down by themes.
+   * @returns {Array} Formatted Array for chart.
    * */
-  generateAggregatedData = (reviews, themes) => {
-    const processedData = {};
-    /* create an object of themes counting the total of sentiment by each one.
-     signature:
+  generateChartData = (categories, themes, reviews, breakByThemes) => {
+    const processedThemesData = {};
+    const processedCategoriesData = {};
+    /* create an object of themes/categories counting the total of sentiment
+    by each one.
+     Object signature:
      {
-     [theme_id]:{
+     [theme_id/category_id]:{
         acc:[sum_of_sentiments],
         counter: [total_of_reviews]
-        name: [theme_name]
+        name: [theme_name/category_name]
         }
      }
      */
+    if (breakByThemes) {
+      reviews.forEach(review =>
+        review.themes.forEach(theme => {
+          const { theme_id } = theme;
+          if (
+            Object.prototype.hasOwnProperty.call(processedThemesData, theme_id)
+          ) {
+            processedThemesData[theme_id].acc += theme.sentiment;
+            processedThemesData[theme_id].counter += 1;
+          } else {
+            const relatedTheme = themes.filter(
+              item => item.id === theme.theme_id,
+            )[0];
+            if (relatedTheme) {
+              processedThemesData[theme_id] = { acc: 0, counter: 0 };
+              processedThemesData[theme.theme_id].name = relatedTheme.name;
+            }
+          }
+        }),
+      );
+      return this.formatData(processedThemesData, 'theme');
+    }
+    // initialize the object with every category
+    categories.forEach(category => {
+      processedCategoriesData[category.id] = {
+        acc: 0,
+        counter: 0,
+        name: category.name,
+      };
+    });
+    // count the sentiments by category
     reviews.forEach(review =>
       review.themes.forEach(theme => {
         const { theme_id } = theme;
-        if (Object.prototype.hasOwnProperty.call(processedData, theme_id)) {
-          processedData[theme_id].acc += theme.sentiment;
-          processedData[theme_id].counter += 1;
-        } else {
-          processedData[theme_id] = { acc: 0, counter: 0 };
-          const relatedTheme = themes.filter(
-            item => item.id === theme.theme_id,
-          )[0];
-          processedData[theme.theme_id].name = relatedTheme
-            ? relatedTheme.name
-            : 'MissingName';
+        const relatedTheme = themes.filter(item => item.id === theme_id)[0];
+        if (relatedTheme) {
+          processedCategoriesData[relatedTheme.category_id].acc +=
+            theme.sentiment;
+          processedCategoriesData[relatedTheme.category_id].counter += 1;
         }
       }),
     );
+
+    return this.formatData(processedCategoriesData, 'categories');
+  };
+
+  formatData = (inputData, label) => {
     // return an array with the average of sentiments by theme
-    return Object.keys(processedData).map(key => ({
-      theme: processedData[key].name,
-      sentiment:
-        processedData[key].counter > 0
-          ? processedData[key].acc / processedData[key].counter
-          : 0,
-    }));
+    console.log(inputData);
+    const chartData = [[label, 'sentiment', { role: 'style' }]];
+    Object.keys(inputData).forEach(key => {
+      const sentiment =
+        inputData[key].counter > 0
+          ? inputData[key].acc / inputData[key].counter
+          : 0;
+      const color = sentiment > 0 ? '#556cd6' : 'red';
+      chartData.push([inputData[key].name, sentiment, color]);
+    });
+    return chartData;
   };
 
   /**
@@ -85,22 +123,31 @@ class DashboardPage extends React.Component {
       <Container maxWidth="xl">
         <h2>Dashboard</h2>
         <WithFilterData initialFilters={query} route="dashboard">
-          {({ reviews, themes, appliedFilters }) => (
-            <Paper>
-              <Button
-                color="primary"
-                onClick={() => this.handleShowReviews(appliedFilters)}
-              >
-                See reviews
-              </Button>
-              <DynamiChart
-                data={this.generateAggregatedData(reviews, themes)}
-                labelField="theme"
-                valueField="sentiment"
-                title="Average sentiments by theme."
-              />
-            </Paper>
-          )}
+          {({ reviews, themes, categories, appliedFilters }) => {
+            const breakByThemes = Object.prototype.hasOwnProperty.call(
+              appliedFilters,
+              'category_id',
+            );
+            return (
+              <Paper>
+                <Button
+                  color="primary"
+                  onClick={() => this.handleShowReviews(appliedFilters)}
+                >
+                  See reviews
+                </Button>
+                <DynamiChart
+                  data={this.generateChartData(
+                    categories,
+                    themes,
+                    reviews,
+                    breakByThemes,
+                  )}
+                  title="Average sentiments by theme."
+                />
+              </Paper>
+            );
+          }}
         </WithFilterData>
       </Container>
     );
