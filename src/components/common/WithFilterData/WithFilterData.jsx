@@ -10,9 +10,16 @@ import Filter from 'components/Filter';
 
 const filterStyles = {
   root: {
-    position: 'fixed',
-    right: '0',
     padding: '10px 20px',
+  },
+  '@media screen and (min-width: 992px)': {
+    root: {
+      position: 'fixed',
+      right: '0',
+    },
+    container: {
+      flexDirection: 'row-reverse',
+    },
   },
 };
 
@@ -153,17 +160,8 @@ class WithFilterData extends React.Component {
       properties,
     } = this.state;
     return (
-      <Grid container spacing={1}>
-        <Grid item sm={8}>
-          {children({
-            reviews,
-            categories,
-            themes,
-            handleFetchMore: this.handleFetchMore,
-            appliedFilters,
-          })}
-        </Grid>
-        <Grid>
+      <Grid container className={classes.container} spacing={1}>
+        <Grid item md={4}>
           <Paper className={classes.root}>
             <h2>Filter by:</h2>
             <div>
@@ -198,6 +196,15 @@ class WithFilterData extends React.Component {
               Reset Filters
             </Button>
           </Paper>
+        </Grid>
+        <Grid item md={8}>
+          {children({
+            reviews,
+            categories,
+            themes,
+            handleFetchMore: this.handleFetchMore,
+            appliedFilters,
+          })}
         </Grid>
       </Grid>
     );

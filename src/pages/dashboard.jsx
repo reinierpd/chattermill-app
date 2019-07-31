@@ -129,7 +129,7 @@ class DashboardPage extends React.PureComponent {
               'category_id',
             );
             return (
-              <Paper>
+              <Paper xs={12}>
                 <Button
                   color="primary"
                   onClick={() => this.handleShowReviews(appliedFilters)}
