@@ -39,7 +39,7 @@ Server Side Rendered ReactJS based app powered by NextJS.
  docker else, else run `yarn build`
 
 ## Designs considerations.
-As the filters are reused in the dashboard and the feed views, I created
+Due that filters are reused in the dashboard and the feed views, I created
 the component `WithFilterData` that hold all the filtering logic and share the filtered data
 using the render-props pattern.
 

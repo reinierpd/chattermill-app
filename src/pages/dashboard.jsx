@@ -1,12 +1,22 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import dynamic from 'next/dynamic';
 import { Router } from 'routes';
 import WithFilterData from 'components/common/WithFilterData';
+
+const styles = {
+  root: {
+    padding: '15px 10px',
+  },
+  textCenter: {
+    textAlign: 'center',
+  },
+};
 
 /**
  * @description
@@ -95,7 +105,6 @@ class DashboardPage extends React.PureComponent {
 
   formatData = (inputData, label) => {
     // return an array with the average of sentiments by theme
-    console.log(inputData);
     const chartData = [[label, 'sentiment', { role: 'style' }]];
     Object.keys(inputData).forEach(key => {
       const sentiment =
@@ -118,24 +127,29 @@ class DashboardPage extends React.PureComponent {
   };
 
   render() {
-    const { query } = this.props;
+    const { query, classes } = this.props;
     return (
       <Container maxWidth="xl">
         <h2>Dashboard</h2>
         <WithFilterData initialFilters={query} route="dashboard">
           {({ reviews, themes, categories, appliedFilters }) => {
-            const breakByThemes = Object.prototype.hasOwnProperty.call(
-              appliedFilters,
-              'category_id',
-            );
+            const breakByThemes =
+              Object.prototype.hasOwnProperty.call(
+                appliedFilters,
+                'category_id',
+              ) && appliedFilters.category_id !== null;
+            const chartTitle = `Average sentiments by ${
+              breakByThemes ? 'theme' : 'category'
+            }.`;
             return (
-              <Paper xs={12}>
+              <Paper xs={12} className={classes.root}>
                 <Button
                   color="primary"
                   onClick={() => this.handleShowReviews(appliedFilters)}
                 >
                   See reviews
                 </Button>
+                <h3 className={classes.textCenter}>{chartTitle}</h3>
                 <DynamiChart
                   data={this.generateChartData(
                     categories,
@@ -143,7 +157,6 @@ class DashboardPage extends React.PureComponent {
                     reviews,
                     breakByThemes,
                   )}
-                  title="Average sentiments by theme."
                 />
               </Paper>
             );
@@ -156,5 +169,6 @@ class DashboardPage extends React.PureComponent {
 
 DashboardPage.propTypes = {
   query: PropTypes.instanceOf(Object).isRequired,
+  classes: PropTypes.instanceOf(Object).isRequired,
 };
-export default DashboardPage;
+export default withStyles(styles)(DashboardPage);
