@@ -17,8 +17,12 @@ class FeedPage extends React.Component {
       <Container maxWidth="xl">
         <h2>Reviews</h2>
         <WithFilterData initialFilters={query} route="feed">
-          {({ reviews, handleFetchMore }) => (
-            <ReviewList reviews={reviews} handleFetchMore={handleFetchMore} />
+          {({ reviews, themes, handleFetchMore }) => (
+            <ReviewList
+              reviews={reviews}
+              themes={themes}
+              handleFetchMore={handleFetchMore}
+            />
           )}
         </WithFilterData>
       </Container>

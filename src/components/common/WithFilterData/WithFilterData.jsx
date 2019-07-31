@@ -120,9 +120,12 @@ class WithFilterData extends React.Component {
    * Trigger function for fetch more reviews and update the state data.
    * */
   handleFetchMore = async () => {
-    const { offset, reviews } = this.state;
+    const { offset, reviews, appliedFilters } = this.state;
     const newOffset = offset + 1;
-    const newReviews = await Api.getReviews({ offset: newOffset });
+    const newReviews = await Api.getReviews({
+      ...appliedFilters,
+      offset: newOffset,
+    });
     this.setState({
       reviews: [...reviews, ...newReviews],
       offset: newOffset,

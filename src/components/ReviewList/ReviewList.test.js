@@ -7,9 +7,9 @@ import ReviewList from './ReviewList';
 
 describe('AdDetail component', () => {
   it('validate List appear with data', () => {
-    const data = [{ id: 1, comment: 'Hey dude', score: 5 }];
+    const data = [{ id: 1, comment: 'Hey dude', score: 5, themes: [] }];
     const wrapper = shallow(
-      <ReviewList reviews={data} handleFetchMore={() => {}} />,
+      <ReviewList reviews={data} themes={[]} handleFetchMore={() => {}} />,
     );
     expect(wrapper.find('WithStyles(ForwardRef(ListItem))').exists()).toBe(
       true,
@@ -18,7 +18,7 @@ describe('AdDetail component', () => {
 
   it("validate List doesn't appear and no data is notified", () => {
     const wrapper = shallow(
-      <ReviewList reviews={[]} handleFetchMore={() => {}} />,
+      <ReviewList reviews={[]} themes={[]} handleFetchMore={() => {}} />,
     );
     expect(wrapper.find('WithStyles(ForwardRef(ListItem))').exists()).toBe(
       false,
